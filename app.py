@@ -3,7 +3,7 @@ import streamlit as st
 import pickle
 
 # Load the model
-with open("NLP_model.pkl.pkl", "rb") as f:
+with open("NLP_model.pkl", "rb") as f:
     detect_language = pickle.load(f)
 
 # Streamlit App
