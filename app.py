@@ -1,14 +1,8 @@
-
 import streamlit as st
-import pickle
-
 from joblib import load
 
+# Load the compressed pipeline model
 detect_language = load("NLP_model_compressed.pkl")
-
-# Load the model
-# with open("NLP_model.pkl", "rb") as f:
-#     detect_language = pickle.load(f)
 
 # Streamlit App
 st.set_page_config(page_title="Language Detection App")
@@ -23,7 +17,23 @@ if st.button("Detect Language"):
         st.warning("Please enter some text.")
     else:
         try:
-            language = detect_language.predict([user_input])
-            st.success(f"Detected Language Code: `{language}`")
+            # Predict using the loaded pipeline
+            prediction = detect_language.predict([user_input])[0]
+
+            # Optional: map language codes to names
+            lang_map = {
+                'en': 'English',
+                'fr': 'French',
+                'es': 'Spanish',
+                'hi': 'Hindi',
+                'de': 'German',
+                'it': 'Italian',
+                'pt': 'Portuguese',
+                # Add more if needed
+            }
+
+            lang_name = lang_map.get(prediction, "Unknown")
+            st.success(f"✅ Detected Language: **{lang_name}** (`{prediction}`)")
+
         except Exception as e:
-            st.error(f"Error detecting language: {str(e)}")
+            st.error(f"❌ Error detecting language: {str(e)}")
