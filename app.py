@@ -23,7 +23,7 @@ if st.button("Detect Language"):
         st.warning("Please enter some text.")
     else:
         try:
-            language = detect_language(user_input)
+            language = detect_language.predict([user_input])
             st.success(f"Detected Language Code: `{language}`")
         except Exception as e:
             st.error(f"Error detecting language: {str(e)}")
