@@ -1,10 +1,10 @@
 import streamlit as st
-from joblib import load
+import joblib
 
-# Load the compressed pipeline model
-detect_language = load("NLP_model_compressed.pkl")
+# Load vectorizer and model separately
+vectorizer = joblib.load("vectorizer.pkl")
+model = joblib.load("NLP_model_compressed.pkl")
 
-# Streamlit App
 st.set_page_config(page_title="Language Detection App")
 
 st.title("🌐 Language Detection Using NLP")
@@ -17,23 +17,19 @@ if st.button("Detect Language"):
         st.warning("Please enter some text.")
     else:
         try:
-            # Predict using the loaded pipeline
-            prediction = detect_language.predict([user_input])[0]
+            # First vectorize the input
+            input_vec = vectorizer.transform([user_input])
+            prediction = model.predict(input_vec)[0]
 
-            # Optional: map language codes to names
+            # Optional: show readable name
             lang_map = {
                 'en': 'English',
                 'fr': 'French',
-                'es': 'Spanish',
                 'hi': 'Hindi',
-                'de': 'German',
-                'it': 'Italian',
-                'pt': 'Portuguese',
-                # Add more if needed
+                'es': 'Spanish'
             }
-
             lang_name = lang_map.get(prediction, "Unknown")
-            st.success(f"✅ Detected Language: **{lang_name}** (`{prediction}`)")
+            st.success(f"✅ Detected Language: {lang_name} (`{prediction}`)")
 
         except Exception as e:
             st.error(f"❌ Error detecting language: {str(e)}")
