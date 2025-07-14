@@ -3,7 +3,8 @@ import joblib
 
 # Load vectorizer and model separately
 vectorizer = joblib.load("vectorizer.pkl")
-model = joblib.load("NLP_model_compressed.pkl")
+#model = joblib.load("NLP_model_compressed.pkl")
+detect_language = joblib.load("NLP_model_compressed.pkl")
 
 st.set_page_config(page_title="Language Detection App")
 
