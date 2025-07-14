@@ -19,17 +19,11 @@ if st.button("Detect Language"):
         try:
             # First vectorize the input
             input_vec = vectorizer.transform([user_input])
-            prediction = model.predict(input_vec)[0]
+            prediction = detect_language.predict(input_vec)[0]
 
-            # Optional: show readable name
-            lang_map = {
-                'en': 'English',
-                'fr': 'French',
-                'hi': 'Hindi',
-                'es': 'Spanish'
-            }
-            lang_name = lang_map.get(prediction, "Unknown")
-            st.success(f"✅ Detected Language: {lang_name} (`{prediction}`)")
+           
+           # prediction = detect_language.predict([user_input])[0]
+            st.success(f"✅ Detected Language: `{prediction}`")
 
         except Exception as e:
             st.error(f"❌ Error detecting language: {str(e)}")
